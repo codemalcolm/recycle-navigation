@@ -22,6 +22,7 @@ export const checkLocationTracking = async () => {
 
 type LocationUpdateCallback = (location: { long: number; lat: number }) => void;
 
+// todo : fix bug on watchGeoLocation with prompting user immedietely on page load 
 export const watchGeoLocation = (
   onLocationUpdate: LocationUpdateCallback
 ): (() => void) => {
