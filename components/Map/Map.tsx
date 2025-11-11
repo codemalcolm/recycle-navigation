@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import L from "leaflet";
 import { leafletSettings } from "@/lib/leaflet.settings";
 import UserMarker from "../Markers/UserMarker";
+import UserLocationTracker from "../Tracker/UserLocationTracker";
+import { Button } from "../ui/button";
 
 const Map = () => {
   const [markerPosition, setMarkerPosition] = useState<[number, number] | null>(
@@ -32,23 +34,30 @@ const Map = () => {
   }, []);
 
   return (
-    // MapContainer is the main wrapper, handling the map instance creation
-    <MapContainer
-      center={START_POSITION}
-      zoom={13}
-      scrollWheelZoom={true}
-      className="h-[600px] w-full"
-    >
-      {/* TileLayer for base map tiles */}
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
+    <div>
+      {/*  MapContainer is the main wrapper, handling the map instance creation */}
+      <MapContainer
+        center={START_POSITION}
+        zoom={13}
+        scrollWheelZoom={true}
+        className="h-[600px] w-full"
+      >
+        {/* TileLayer for base map tiles */}
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
 
-      {markerPosition && <UserMarker position={markerPosition} />}
-
-      <MapClickHandler />
-    </MapContainer>
+        {/* {markerPosition && <UserMarker position={markerPosition} />} */}
+        <UserLocationTracker />
+        <MapClickHandler />
+        <div className="relative z-999 h-full">
+          <Button className="absolute left-[50%] top-[85%] translate-x-[-50%] cursor-pointer">
+            Allow GeoLocation
+          </Button>
+        </div>
+      </MapContainer>
+    </div>
   );
 };
 
