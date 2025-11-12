@@ -1,20 +1,18 @@
 import { watchGeoLocation } from "@/lib/utils";
 import { useCallback, useRef, useState } from "react";
 
-type CoordsType = {
-  lat: number | null;
-  long: number | null;
-};
-
 export const useTrackLocation = () => {
-  const [coords, setCoords] = useState<CoordsType>({ lat: null, long: null });
+  const [coordinates, setCoordinates] = useState<Coordinates>({
+    lat: null,
+    long: null,
+  });
   const [isTracking, setIsTracking] = useState<boolean>(false);
 
   const stopTrackingRef = useRef<() => void | null>(null);
 
   const handleLocationUpdate = useCallback(
     ({ long, lat }: { long: number; lat: number }) => {
-      setCoords({ long, lat });
+      setCoordinates({ long, lat });
     },
     []
   );
@@ -38,9 +36,9 @@ export const useTrackLocation = () => {
   }, []);
 
   return {
+    coordinates,
+    isTracking,
     startTracking,
     stopTracking,
-    coords,
-    isTracking,
   };
 };
