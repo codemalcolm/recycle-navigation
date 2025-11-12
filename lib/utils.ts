@@ -5,24 +5,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const checkLocationTracking = async () => {
-  try {
-    const geoLocationPermission = await navigator.permissions.query({
-      name: "geolocation",
-    });
-
-    return geoLocationPermission.state === "prompt" ||
-      geoLocationPermission.state === "denied"
-      ? false
-      : true;
-  } catch (error) {
-    throw new Error(`Error occured during geoLocation permission: ${error}`);
-  }
-};
-
 type LocationUpdateCallback = (location: { long: number; lat: number }) => void;
 
-// todo : fix bug on watchGeoLocation with prompting user immedietely on page load 
 export const watchGeoLocation = (
   onLocationUpdate: LocationUpdateCallback
 ): (() => void) => {
@@ -33,7 +17,7 @@ export const watchGeoLocation = (
   }
   let long: number;
   let lat: number;
-
+  console.log("called")
   /// success function is called on each location change of the user
   function success(position: GeolocationPosition) {
     console.log("Geo location active");
