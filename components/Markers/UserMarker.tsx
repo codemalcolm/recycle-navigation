@@ -6,7 +6,6 @@ interface UserMarkerProps {
 }
 
 const UserMarker = ({ position }: UserMarkerProps) => {
-  console.log("You activated UserMarker", position);
   return <Marker position={position} icon={userMarkerIcon}></Marker>;
 };
 
