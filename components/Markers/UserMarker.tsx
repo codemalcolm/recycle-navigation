@@ -1,8 +1,9 @@
 import { userMarkerIcon } from "@/lib/exports/user-marker-icon";
+import { Coordinates } from "@/types/global";
 import { Marker } from "react-leaflet";
 
 interface UserMarkerProps {
-  position: [number, number];
+  position: Coordinates;
 }
 
 const UserMarker = ({ position }: UserMarkerProps) => {

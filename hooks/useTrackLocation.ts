@@ -1,21 +1,17 @@
 import { watchGeoLocation } from "@/lib/utils";
+import { Coordinates } from "@/types/global";
 import { useCallback, useRef, useState } from "react";
 
 export const useTrackLocation = () => {
-  const [coordinates, setCoordinates] = useState<Coordinates>({
-    lat: null,
-    long: null,
-  });
+  const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
   const [isTracking, setIsTracking] = useState<boolean>(false);
 
   const stopTrackingRef = useRef<() => void | null>(null);
 
-  const handleLocationUpdate = useCallback(
-    ({ long, lat }: { long: number; lat: number }) => {
-      setCoordinates({ long, lat });
-    },
-    []
-  );
+  const handleLocationUpdate = useCallback((coords: Coordinates) => {
+    // The coords variable is already a valid LatLngExpression tuple
+    setCoordinates(coords);
+  }, []);
 
   const startTracking = () => {
     if (isTracking) return; // disallow more watches

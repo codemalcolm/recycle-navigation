@@ -1,3 +1,4 @@
+import { Coordinates } from "@/types/global";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -5,8 +6,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-type LocationUpdateCallback = (location: { long: number; lat: number }) => void;
-
+type LocationUpdateCallback = (coords: Coordinates) => void;
+// todo : change consolelogs to toasts
 export const watchGeoLocation = (
   onLocationUpdate: LocationUpdateCallback
 ): (() => void) => {
@@ -15,16 +16,16 @@ export const watchGeoLocation = (
     console.error("Geolocation is not supported for this Browser/OS.");
     return () => {};
   }
-  let long: number;
+  let lng: number;
   let lat: number;
-  console.log("called")
+  console.log("called");
   /// success function is called on each location change of the user
   function success(position: GeolocationPosition) {
     console.log("Geo location active");
     console.log(position);
-    ({ longitude: long, latitude: lat } = position.coords);
+    ({ longitude: lng, latitude: lat } = position.coords);
 
-    onLocationUpdate({ long, lat });
+    onLocationUpdate([lat, lng]);
   }
 
   // start watching the position

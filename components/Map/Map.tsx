@@ -8,14 +8,15 @@ import { Button } from "../ui/button";
 import { useTrackLocation } from "@/hooks/useTrackLocation";
 import { useGeoLocPermission } from "@/hooks/useGeoLocPermission";
 import { cn } from "@/lib/utils";
+import { Coordinates } from "@/types/global";
 
 const Map = () => {
-  const [markerPosition, setMarkerPosition] = useState<[number, number] | null>(
+  const [markerPosition, setMarkerPosition] = useState<Coordinates | null>(
     null
   );
   // const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 
-  const START_POSITION: [number, number] = [50.0755, 14.4378];
+  const START_POSITION: Coordinates = [50.0755, 14.4378];
 
   // todo : change to -> fetch data on click
   function MapClickHandler() {
