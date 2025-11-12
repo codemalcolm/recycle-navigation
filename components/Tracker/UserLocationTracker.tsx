@@ -1,7 +1,10 @@
+import { useEffect } from "react";
 import UserMarker from "../Markers/UserMarker";
+import { useMap } from "react-leaflet";
+import { Coordinates } from "@/types/global";
 
 interface UserLocationTrackerProps {
-  coordinates: Coordinates;
+  coordinates: Coordinates | null;
   isTracking: boolean;
 }
 
@@ -9,12 +12,13 @@ const UserLocationTracker: React.FC<UserLocationTrackerProps> = ({
   coordinates,
   isTracking,
 }) => {
-  const isLocationReady = coordinates.lat !== null && coordinates.long !== null;
+  const map = useMap();
 
-  // conversion to Marker "position" data type
-  const markerPosition: [number, number] | null = isLocationReady
-    ? [coordinates.lat!, coordinates.long!]
-    : null;
+  const markerPosition: Coordinates = coordinates!;
+
+  useEffect(() => {
+    if (markerPosition) map.flyTo(markerPosition, 13, { duration: 1.5 });
+  });
 
   if (!isTracking) return null;
 
