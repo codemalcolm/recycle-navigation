@@ -9,12 +9,12 @@ import { useTrackLocation } from "@/hooks/useTrackLocation";
 import { useGeoLocPermission } from "@/hooks/useGeoLocPermission";
 import { cn } from "@/lib/utils";
 import { Coordinates } from "@/types/global";
+import TrackLocationButton from "../Buttons/TrackLocationButton";
 
 const Map = () => {
   const [markerPosition, setMarkerPosition] = useState<Coordinates | null>(
     null
   );
-  // const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 
   const START_POSITION: Coordinates = [50.0755, 14.4378];
 
@@ -75,17 +75,12 @@ const Map = () => {
         {/* {markerPosition && <UserMarker position={markerPosition} />} */}
         <UserLocationTracker coordinates={coordinates} isTracking />
         <MapClickHandler />
-        <div className="relative z-999 h-full">
-          <Button
-            className={cn(
-              `absolute left-[50%] top-[85%] translate-x-[-50%] cursor-pointer`,
-              isButtonVisible ? "block" : "hidden"
-            )}
-            onClick={startTracking}
-          >
-            {buttonText}
-          </Button>
-        </div>
+        {isButtonVisible && (
+          <TrackLocationButton
+            startTracking={startTracking}
+            buttonText={buttonText}
+          />
+        )}
       </MapContainer>
     </div>
   );
