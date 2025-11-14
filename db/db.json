@@ -1,0 +1,27 @@
+[
+  {
+    "type": "node",
+    "id": 11400829044,
+    "lat": 50.0680748,
+    "lon": 14.4513746,
+    "tags": {
+      "amenity": "recycling",
+      "recycling:beverage_cartons": "yes",
+      "recycling:cooking_oil": "yes",
+      "recycling:glass": "yes",
+      "recycling:paper": "yes",
+      "recycling:plastic": "yes",
+      "recycling_type": "container"
+    }
+  },
+
+  {
+    "type": "node",
+    "id": 8421067188,
+    "lat": 50.0699047,
+    "lon": 14.44608,
+    "tags": {
+      "amenity": "waste_basket"
+    }
+  }
+]
