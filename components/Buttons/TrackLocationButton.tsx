@@ -1,6 +1,4 @@
-import React from "react";
 import { Button } from "../ui/button";
-import trackLocationIcon from "/images/icons/track-location.svg";
 import Image from "next/image";
 type TrackLocationButtonProps = {
   startTracking: () => void;
@@ -12,9 +10,9 @@ const TrackLocationButton = ({
   buttonText,
 }: TrackLocationButtonProps) => {
   return (
-    <div className="relative z-999 h-full">
+    <div className="relative h-full select-none">
       <Button
-        className="absolute left-[50%] top-[85%] translate-x-[-50%] cursor-pointer"
+        className="absolute left-[50%] top-[85%] translate-x-[-50%] cursor-pointer z-400"
         onClick={startTracking}
       >
         {buttonText}
