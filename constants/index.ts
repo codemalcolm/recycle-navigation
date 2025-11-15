@@ -1,6 +1,6 @@
 const ROUTES = {
   HOME: "/",
-  MARKER: (id: string) => `marker/${id}`,
+  MARKER_SEARCH_PARAMS: (searchParams: string) => `/?${searchParams}`,
 };
 
 export default ROUTES
