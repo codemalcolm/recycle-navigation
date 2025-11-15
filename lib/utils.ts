@@ -1,10 +1,32 @@
-import { Coordinates } from "@/types/global";
+import { Coordinates, Tags } from "@/types/global";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export const transformOsmTags = (tags: Tags) => {
+  return Object.entries(tags)
+    .filter((value) => value[0].startsWith("recycling:") && value[1] === "yes")
+    .map((item) =>
+      transformString(item[0].slice("recycling:".length, item[0].length))
+    );
+};
+
+export const transformString = (str: string) => {
+  return str.replace(/_(\w)|^(\w)/g, (match, p1, p2) => {
+    if (p1) {
+      return " " + p1.toUpperCase();
+    }
+
+    if (p2) {
+      return p2.toUpperCase();
+    }
+
+    return match;
+  });
+};
 
 type LocationUpdateCallback = (coords: Coordinates) => void;
 // todo : change consolelogs to toasts
