@@ -10,6 +10,8 @@ import { useGeoLocPermission } from "@/hooks/useGeoLocPermission";
 import { cn } from "@/lib/utils";
 import { Coordinates } from "@/types/global";
 import TrackLocationButton from "../Buttons/TrackLocationButton";
+import LoadedMarkers from "../LoadedMarkers/LoadedMarkers";
+import MarkerPopup from "../Popup/MarkerPopup";
 
 const Map = () => {
   const [markerPosition, setMarkerPosition] = useState<Coordinates | null>(
@@ -19,18 +21,18 @@ const Map = () => {
   const START_POSITION: Coordinates = [50.0755, 14.4378];
 
   // todo : change to -> fetch data on click
-  function MapClickHandler() {
-    useMapEvents({
-      click: (e) => {
-        if (markerPosition) {
-          console.log("already have a marker");
-        }
-        const clickedPosition: [number, number] = [e.latlng.lat, e.latlng.lng];
-        setMarkerPosition(clickedPosition);
-      },
-    });
-    return null;
-  }
+  // function MapClickHandler() {
+  //   useMapEvents({
+  //     click: (e) => {
+  //       if (markerPosition) {
+  //         console.log("already have a marker");
+  //       }
+  //       const clickedPosition: [number, number] = [e.latlng.lat, e.latlng.lng];
+  //       setMarkerPosition(clickedPosition);
+  //     },
+  //   });
+  //   return null;
+  // }
 
   // check permission from user to track location
   const permissionStatus = useGeoLocPermission();
@@ -58,7 +60,7 @@ const Map = () => {
   }
 
   return (
-    <div>
+    <div className="relative">
       {/*  MapContainer is the main wrapper, handling the map instance creation */}
       <MapContainer
         center={START_POSITION}
@@ -74,7 +76,10 @@ const Map = () => {
 
         {/* {markerPosition && <UserMarker position={markerPosition} />} */}
         <UserLocationTracker coordinates={coordinates} isTracking />
-        <MapClickHandler />
+        <LoadedMarkers />
+        <MarkerPopup />
+
+        {/* <MapClickHandler /> */}
         {isButtonVisible && (
           <TrackLocationButton
             startTracking={startTracking}
