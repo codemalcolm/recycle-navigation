@@ -7,30 +7,22 @@ type CoordinatesObject = {
   long: number | null;
 };
 
-type OsmObject = RecyclingContainer | WasteBasket;
+type OsmObject = RecyclePoint;
 
-interface RecyclingContainer {
-  type: string;
-  id: number;
-  lat: number;
-  lon: number;
-  tags: Tags;
-}
-
-interface WasteBasket {
-  type: string;
-  id: number;
-  lat: number;
-  lon: number;
-  tags: Tags;
+interface RecyclePoint {
+  type: string | "";
+  id: number | null;
+  lat: number | null;
+  lon: number | null;
+  tags: Tags | null;
 }
 
 interface Tags {
   amenity: string;
-  recycling_beverage_cartons?: string;
-  recyclingcooking_oil?: string;
-  recycling_glass?: string;
-  recycling_paper?: string;
-  recycling_plastic?: string;
-  recycling_type?: string;
+  "recycling:beverage_cartons"?: string;
+  "recycling:cooking_oil"?: string;
+  "recycling:glass"?: string;
+  "recycling:paper"?: string;
+  "recycling:plastic"?: string;
+  "recycling:type"?: string;
 }
