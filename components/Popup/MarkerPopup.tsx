@@ -2,13 +2,13 @@
 
 import { OsmObject } from "@/types/global";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import database from "../../db/db.json";
 import { useMap } from "react-leaflet";
 import ROUTES from "@/constants";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import { transformOsmTags, transformString } from "@/lib/utils";
+import { transformOsmTags } from "@/lib/utils";
 
 const MarkerPopup = () => {
   const router = useRouter();
@@ -44,6 +44,10 @@ const MarkerPopup = () => {
     });
   };
 
+  const handleNavigate = ()=> {
+    console.log("navigating ...")
+  }
+
   if (!markerData) {
     return null; // Don't render if no marker id is present
   } else {
@@ -53,15 +57,29 @@ const MarkerPopup = () => {
   // Basic styling for a bottom-up popup
   return (
     <div
-      className="flex-column absolute left-[50%] translate-x-[-50%] max-w-[750px] bg-white p-5 z-1000 transition-transform bottom-0 right-0 border border-red-500 rounded-t-lg"
+      className="flex-column absolute left-[50%] translate-x-[-50%] max-w-[750px] bg-white p-5 z-1000 transition-transform bottom-0 right-0 border border-red-500 rounded-t-lg w-full w-max-[750px]"
       style={{
         transition: "transform 0.7s ease-in",
         // The presence of markerData implies the popup is "open"
         transform: markerIdString ? "translateY(0)" : "translateY(100%)",
       }}
     >
-      <div className="flex justify-between items-center">
-        <h3>Marker Details:</h3>
+      <div className="flex justify-between items-start">
+        <div className="">
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={handleNavigate}
+            className="rounded-full bg-[#00dc00] w-14 h-14"
+          >
+            <Image
+              width={20}
+              height={20}
+              src={"/images/icons/navigate-icon.svg"}
+              alt="Start navigation button"
+            />
+          </Button>
+        </div>
         <Button size={null} variant="ghost" onClick={handleClose}>
           <Image
             width={16}
@@ -71,6 +89,7 @@ const MarkerPopup = () => {
           />
         </Button>
       </div>
+      <h3 className="mt-4">Marker Details:</h3>
 
       <p>ID: {markerData?.id}</p>
       <p>
