@@ -1,23 +1,28 @@
 "use client";
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 import { Coordinates } from "@/types/global";
-
 
 type UserCoordinatesProviderProps = {
   children: ReactNode | ReactNode[];
 };
 
-export const defaultCoordinates = null;
+type CoordinatesContextType = [
+  null | Coordinates,
+  (coordinates: null | Coordinates) => void // setter function type (setCoordinates)
+];
 
-export const UserCoordinatesContext = createContext<null | Coordinates>(
-  defaultCoordinates
-);
+export const UserCoordinatesContext = createContext<CoordinatesContextType>([
+  null, //  coordinates value
+  () => {}, //  setter function
+]);
 
 export const UserCoordinatesProvider = ({
   children,
 }: UserCoordinatesProviderProps) => {
+  const [contextCoordinates, setContextCoordinates] = useState<null | Coordinates>(null);
+  const contextValue: CoordinatesContextType = [contextCoordinates, setContextCoordinates];
   return (
-    <UserCoordinatesContext.Provider value={defaultCoordinates}>
+    <UserCoordinatesContext.Provider value={contextValue}>
       {children}
     </UserCoordinatesContext.Provider>
   );
