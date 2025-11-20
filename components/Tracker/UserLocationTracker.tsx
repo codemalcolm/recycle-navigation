@@ -2,19 +2,19 @@ import { useEffect, useRef } from "react";
 import UserMarker from "../Markers/UserMarker";
 import { useMap } from "react-leaflet";
 import { Coordinates } from "@/types/global";
+import { useUserCoordinates } from "@/context/UserCoordinatesProvider";
 
 interface UserLocationTrackerProps {
-  coordinates: Coordinates | null;
   isTracking: boolean;
 }
 
 const UserLocationTracker: React.FC<UserLocationTrackerProps> = ({
-  coordinates,
   isTracking,
 }) => {
   const map = useMap();
   const flyToTriggered = useRef<boolean>(false); // needed ref to no trigger useEffect twice
-  const markerPosition: Coordinates = coordinates!;
+  const [contextCoordinates] = useUserCoordinates();
+  const markerPosition: Coordinates = contextCoordinates!;
 
   useEffect(() => {
     if (markerPosition && !flyToTriggered.current) {
