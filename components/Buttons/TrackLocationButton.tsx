@@ -1,18 +1,45 @@
+import { useGeoLocPermission } from "@/hooks/useGeoLocPermission";
 import { Button } from "../ui/button";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 type TrackLocationButtonProps = {
+  isTracking: boolean;
   startTracking: () => void;
-  buttonText: string;
 };
 
 const TrackLocationButton = ({
   startTracking,
-  buttonText,
+  isTracking,
 }: TrackLocationButtonProps) => {
+  // check permission from user to track location
+  const permissionStatus = useGeoLocPermission();
+
+  let buttonText = "Allow GeoLocation";
+  let isButtonVisible = false;
+
+  // permission handling
+  if (isButtonVisible && isTracking && permissionStatus === "granted") {
+    buttonText = "Location Tracking Active";
+    isButtonVisible = false;
+  } else if (permissionStatus === "denied") {
+    buttonText = "Location Denied (Check Browser Settings)";
+    isButtonVisible = true;
+  } else if (permissionStatus === "unsupported") {
+    buttonText = "Geolocation Not Supported";
+    isButtonVisible = true;
+  } else {
+    isButtonVisible = true;
+  }
+
   return (
-    <div className="relative h-full select-none">
+    <div
+      className={`${
+        isButtonVisible ? "block" : "hidden"
+      } relative h-full select-none`}
+    >
       <Button
-        className="absolute left-[50%] top-[85%] translate-x-[-50%] cursor-pointer z-400"
+        id="kokotina"
+        className={`absolute left-[50%] top-[85%] translate-x-[-50%] cursor-pointer z-400`}
         onClick={startTracking}
       >
         {buttonText}
