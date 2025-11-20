@@ -8,11 +8,12 @@ import { useMap } from "react-leaflet";
 import ROUTES from "@/constants";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import { transformOsmTags } from "@/lib/utils";
+import { cn, transformOsmTags } from "@/lib/utils";
 
 const MarkerPopup = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [isNavigating, setIsNavigating] = useState(false);
   const markerIdString = searchParams.get("markerId"); // read markerId
   const map = useMap();
 
@@ -31,7 +32,18 @@ const MarkerPopup = () => {
     } else {
       setMarkerData(null);
     }
+    return () => {
+      setIsNavigating(false);
+    };
   }, [markerIdString]);
+
+  useEffect(() => {
+    if (isNavigating) {
+      console.log(`navigating to ...`);
+    } else {
+      console.log(`ending navigation to ...`);
+    }
+  }, [isNavigating]);
 
   // Handler to close the modal by removing the parameter from the URL
   const handleClose = () => {
@@ -44,9 +56,9 @@ const MarkerPopup = () => {
     });
   };
 
-  const handleNavigate = ()=> {
-    console.log("navigating ...")
-  }
+  const handleNavigate = () => {
+    setIsNavigating((prevIsNavigating) => !prevIsNavigating);
+  };
 
   if (!markerData) {
     return null; // Don't render if no marker id is present
@@ -70,14 +82,25 @@ const MarkerPopup = () => {
             size="icon"
             variant="outline"
             onClick={handleNavigate}
-            className="rounded-full bg-[#00dc00] w-14 h-14"
+            className={`
+              bg-[#00dc00] 
+              border-2
+              ${cn(isNavigating && "bg-white border-[#00dc00]")} 
+              rounded-full w-14 h-14 cursor-pointer 
+            `}
           >
-            <Image
-              width={20}
-              height={20}
-              src={"/images/icons/navigate-icon.svg"}
-              alt="Start navigation button"
-            />
+            {/* Navigation icon cannot be added as external svg due to color change on navigation state */}
+            {/* Solved by inline svg */}
+            <svg
+              width="16"
+              height="16"
+              fill="white"
+              className={`${cn(isNavigating && "fill-[#00dc00]")}`}
+              viewBox="0 0 16 16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M8.00039 15.2481C7.64739 15.2481 6.78138 15.1021 6.33238 13.7521L5.12338 10.1251L1.49538 8.9161C0.251385 8.5011 0.026385 7.7441 0.00238504 7.3291C-0.021615 6.9141 0.116385 6.1361 1.30438 5.5821L12.6794 0.273099C13.7104 -0.205901 14.6014 -0.0359014 15.0274 0.635099C15.2514 0.986099 15.4234 1.6051 14.9744 2.5681L9.66539 13.9431C9.13638 15.0781 8.39338 15.2481 8.00039 15.2481ZM2.61039 7.1801L6.70439 8.5431L8.06939 12.6361L12.8444 2.4031L2.61039 7.1801Z" />
+            </svg>
           </Button>
         </div>
         <Button size={null} variant="ghost" onClick={handleClose}>
