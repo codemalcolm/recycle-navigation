@@ -1,16 +1,14 @@
 import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import L from "leaflet";
 import { leafletSettings } from "@/lib/leaflet.settings";
 import UserLocationTracker from "../Tracker/UserLocationTracker";
 import { useTrackLocation } from "@/hooks/useTrackLocation";
-import { useGeoLocPermission } from "@/hooks/useGeoLocPermission";
 import { Coordinates } from "@/types/global";
 import TrackLocationButton from "../Buttons/TrackLocationButton";
 import LoadedMarkers from "../LoadedMarkers/LoadedMarkers";
 import MarkerPopup from "../Popup/MarkerPopup";
-import { Button } from "../ui/button";
 
 const Map = () => {
   const START_POSITION: Coordinates = [50.0755, 14.4378];

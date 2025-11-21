@@ -1,7 +1,7 @@
 import ROUTES from "@/constants";
 import { Coordinates, OsmObject } from "@/types/global";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Marker, useMap } from "react-leaflet";
+import { Marker } from "react-leaflet";
 
 type ClickedMarkerProps = {
   markerData: OsmObject;
@@ -11,7 +11,6 @@ const ClickedMarker = ({ markerData }: ClickedMarkerProps) => {
   const router = useRouter();
   const coordinates: Coordinates = [markerData.lat!, markerData.lon!];
   const searchParams = useSearchParams();
-  const map = useMap();
 
   const eventHandlers = {
     click: () => {
@@ -23,7 +22,6 @@ const ClickedMarker = ({ markerData }: ClickedMarkerProps) => {
         ROUTES.MARKER_SEARCH_PARAMS(currentSearchParams.toString() as string),
         { scroll: false }
       );
-      // map.flyTo(coordinates, 15, { duration: 0.68 });
     },
   };
 
