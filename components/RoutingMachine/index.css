@@ -1,0 +1,8 @@
+.leaflet-routing-container.leaflet-bar {
+  display: none !important;
+}
+
+/* Optional: If the itinerary panel is still visible when expanded, target the detailed list as well */
+.leaflet-routing-alt {
+  display: none !important;
+}
