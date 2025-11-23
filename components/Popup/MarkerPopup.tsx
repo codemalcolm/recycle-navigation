@@ -67,27 +67,29 @@ const MarkerPopup = () => {
     });
   };
 
-  const markerLocation: Coordinates = markerData! && [
-    markerData!.lat!,
-    markerData!.lon!,
-  ];
+  const markerLocation: Coordinates =
+    (markerData! && [markerData!.lat!, markerData!.lon!]) || null;
 
   // handle setting coordinates that eventually triggers RoutingMachine
   const handleNavigation = () => {
+    let newWayPoints: RoutingWaypointsType | null;
     try {
       if (!userCoordinates && !markerData) {
         setIsNavigating(false);
         console.error("User Location not provided");
         alert("Allow location tracking to navigate to marker");
         // todo : add better error handling with toast popup
+      } else if (isNavigating) {
+        // if the isNavigating state is true the user is trying to cancel the navigation
+        setRoutingWaypoints(null);
+        console.log(`navigating to ${[markerData!.lat!, markerData!.lon!]}`);
       } else {
         // set start & end coordinates
-        const newWayPoints: RoutingWaypointsType = {
+        newWayPoints = {
           startPosition: userCoordinates!,
-          endPosition: markerLocation,
+          endPosition: markerLocation!,
         };
         setRoutingWaypoints(newWayPoints);
-        console.log(`navigating to ${[markerData!.lat!, markerData!.lon!]}`);
       }
     } catch (error) {
       console.error(error);
@@ -101,6 +103,8 @@ const MarkerPopup = () => {
   } else {
     map.flyTo([markerData.lat!, markerData.lon!], 15, { duration: 0.68 });
   }
+
+  // In your Parent Component (Map.tsx or App.tsx)
 
   // Basic styling for a bottom-up popup
   return (
